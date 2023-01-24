@@ -5,26 +5,36 @@ use QuickBooksOnline\Payments\OAuth\OAuth2Authenticator;
 use QuickBooksOnline\Payments\PaymentClient;
 use QuickBooksOnline\Payments\Operations\ChargeOperations;
 
-$client_id 		= "ABWKSetUmr39YxrkUNqiNWXlxy1uMv5duJP5vYjPY1iADex4Ym";
-$client_secret 	= "Rr4Zdi3BOlm81SCl4sTe7LXx5a7gbvPbSxY6JRYY";
+
 
 function create_get_access_token() {
+
+	$client_id 		= "ABWKSetUmr39YxrkUNqiNWXlxy1uMv5duJP5vYjPY1iADex4Ym";
+	$client_secret 	= "Rr4Zdi3BOlm81SCl4sTe7LXx5a7gbvPbSxY6JRYY";
 
 	$client 		= new PaymentClient();
 	$oauth2Helper 	= OAuth2Authenticator::create([
 	  'client_id' 		=> $client_id,
 	  'client_secret' 	=> $client_secret,
-	  'redirect_uri' 	=> 'https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl',
+	  'redirect_uri' 	=> 'http://www.paymentintuit/receive_code.php',
 	  'environment' 	=> 'development'
 	]);
 
+	
 	$scope 					= "com.intuit.quickbooks.accounting openid profile email phone address";
 	$authorizationCodeURL 	= $oauth2Helper->generateAuthCodeURL($scope);
+
+	header("Location: " . $authorizationCodeURL);
+	die;
 	
 	//Redirect User to the $authorizationCodeURL, and a code will be sent to your redirect_uri as query paramter;
-	$code = "SomeVeryUniqueString";
-	$request = $oauth2Helper->createRequestToExchange($code);
-	$response = $client->send($request);
+	$code 		= generateRandomString();
+
+
+	$request 	= $oauth2Helper->createRequestToExchange($code);
+
+	$response 	= $client->send($request);
+	var_dump($response);
 	if ($response->failed()) {
 	  $code = $response->getStatusCode();
 	  $errorMessage = $response->getBody();
@@ -88,6 +98,17 @@ function create_intuit_payment() {
 	  echo "Id is " . $id . "\n";
 	  echo "status is " . $status . "\n";
 	}
+}
+
+function generateRandomString($length = 10)
+{
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
 }
 
 ?>
