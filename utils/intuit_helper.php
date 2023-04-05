@@ -9,8 +9,8 @@ use QuickBooksOnline\Payments\Operations\ChargeOperations;
 
 function create_get_access_code() {
 
-	$client_id 		= "ABWKSetUmr39YxrkUNqiNWXlxy1uMv5duJP5vYjPY1iADex4Ym";
-	$client_secret 	= "Rr4Zdi3BOlm81SCl4sTe7LXx5a7gbvPbSxY6JRYY";
+	$client_id 		= "ABWKSetUmr39YxrkUNqiNWXlxy1uMv5duJP5vYjPY1iADex4Ym"; //ISA KEY : ABQCG7SnlfmVp0xLpEe2ILzp0PTizfJlkpRWrESt2SvTlSKTuE
+	$client_secret 	= "Rr4Zdi3BOlm81SCl4sTe7LXx5a7gbvPbSxY6JRYY"; // ISA Secret : mj4k7vFdhZK7NZBVWuezUQjc5mtXOKSLoBgguPVf
 
 	$client 		= new PaymentClient();
 	$oauth2Helper 	= OAuth2Authenticator::create([
