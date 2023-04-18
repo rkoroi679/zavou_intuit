@@ -103,6 +103,8 @@ function create_intuit_payment() {
 	} else {
 
 	  $responseCharge = $response->getBody();
+	  var_dump( $responseCharge);
+	  exit;
 	  //Get the Id of the charge request
 	  $id = $responseCharge->id;
 	  //Get the Status of the charge request
